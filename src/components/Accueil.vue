@@ -11,10 +11,18 @@ const boxes = ref([
 </script>
 
 <template>
-  <h1> Page d'acceuil </h1>
+  <h1> Page d'accueil </h1>
+
   <div class="grid-container">
     <div v-for="(box, index) in boxes" :key="index" class="box">
-      <h3>{{ box.title }}</h3>
+      <!-- Redirection vers le components Potions.vue -->
+      <h3 v-if="box.title === 'Potions'">
+        <router-link :to="{ name: 'potions' }">{{ box.title }}</router-link>
+      </h3>
+      <!-- Pour les autres titres sans lien -->
+      <h3 v-else>
+        {{ box.title }}
+      </h3>
       <ul>
         <li v-for="(item, i) in box.items" :key="`item-${i}`">{{ item }}</li>
       </ul>
@@ -22,8 +30,8 @@ const boxes = ref([
   </div>
 </template>
 
-<style scoped>
 
+<style scoped>
 h1{
     color: red;
 }
@@ -31,20 +39,16 @@ h1{
 .grid-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
+  gap: 50px;
 }
 
 .box {
   border: 1px solid #ccc;
-  padding: 20px;
+  padding: 30px;
 }
 
 ul {
   list-style-type: none;
   padding: 0;
-}
-
-li:not(:last-child)::after {
-  content: ', ';
 }
 </style>
