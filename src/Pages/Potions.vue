@@ -1,9 +1,7 @@
 <script setup>
-
+import { ref } from 'vue'
 </script>
 
 <template>
-  <router-view/>
+  <h1> Potions </h1>
 </template>
-
-<style scoped></style>
