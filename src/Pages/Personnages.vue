@@ -38,12 +38,11 @@ const previousPage = () => {
         <img :src="item.attributes.image" alt="Image du personnage" />
         <div class="characters-details">
           <p v-if="item.attributes.name"><span>Nom : </span>{{ item.attributes.name }}</p>
-          <p v-if="item.attributes.difficulty"><span>Difficulté : </span>{{ item.attributes.difficulty }}</p>
-          <p v-if="item.attributes.time"><span>Temps : </span>{{ item.attributes.time }}</p>
-          <p v-if="item.attributes.inventors"><span>Créateur : </span>{{ item.attributes.inventors }}</p>
-          <p v-if="item.attributes.ingredients"><span>Ingrédients : </span> {{ item.attributes.ingredients }}</p>
-          <p v-if="item.attributes.effect"><span>Effet :</span> {{ item.attributes.effect }}</p>
-          <p v-if="item.attributes.side_effects"><span>Effet secondaire : </span>{{ item.attributes.side_effects }}</p>
+          <p v-if="item.attributes.house"><span>Maison : </span>{{ item.attributes.house }}</p>
+          <p v-if="item.attributes.born"><span>La date et le lieu de naissance : </span>{{ item.attributes.born }}</p>
+          <p v-if="item.attributes.died"><span>La date et le lieu de décès : </span>{{ item.attributes.died }}</p>
+          <p v-if="item.attributes.animagus"><span>Animagus : </span>{{ item.attributes.animagus }}</p>
+          <p v-if="item.attributes.boggart"><span>Épouvantard  : </span>{{ item.attributes.boggart }}</p>
         </div>
         <a :href="item.attributes.wiki">
           <p>En savoir plus avec le wiki</p>
