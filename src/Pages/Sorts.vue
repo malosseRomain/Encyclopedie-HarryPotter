@@ -8,7 +8,6 @@ const pageNumber = ref(1)
 const fetchData = async () => {
   try {
     let result = await axios.get(`https://api.potterdb.com/v1/spells?page[size]=16&page[number]=${pageNumber.value}`);
-    console.warn(result.data.data)
     list.value = result.data.data
   } catch (error) {
     console.error("Une erreur s'est produite :", error)

@@ -3,11 +3,10 @@ import { ref } from 'vue'
 
 // Exemple de données pour démontrer
 const boxes = ref([
-  { title: 'Livres', items: ['Item 4.1', 'Item 4.2', 'Item 4.3'] },
-  { title: 'Personnages', items: ['Item 1.1', 'Item 1.2', 'Item 1.3'] },
+  { title: 'Potions', items: ['Item 1.1', 'Item 1.2', 'Item 1.3'] },
   { title: 'Sorts', items: ['Item 2.1', 'Item 2.2', 'Item 2.3'] },
-  { title: 'Potions', items: ['Item 3.1', 'Item 3.2', 'Item 3.3'] },
-  
+  { title: 'Livres', items: ['Item 3.1', 'Item 3.2', 'Item 3.3'] },
+  { title: 'Personnages', items: ['Item 4.1', 'Item 4.2', 'Item 4.3'] },
 ])
 </script>
 
@@ -20,6 +19,7 @@ const boxes = ref([
       <h3>
         <router-link :to=' box.title '>{{ box.title }}</router-link>
       </h3>
+
 
       <ul>
         <li v-for="(item, i) in box.items" :key="`item-${i}`">{{ item }}</li>
