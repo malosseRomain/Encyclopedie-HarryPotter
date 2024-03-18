@@ -1,23 +1,22 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import axios from "axios"
+import { fetchData } from '../controllers/livresController';
 
 const list = ref([])
-const pageNumber = ref(1)
+const error = ref(null)
 
-const fetchData = async () => {
+onMounted(async () => {
   try {
-    let result = await axios.get(`https://api.potterdb.com/v1/books`);
-    list.value = result.data.data
-  } catch (error) {
-    console.error("Une erreur s'est produite :", error)
+    list.value = await fetchData()
+  } catch (err) {
+    error.value = err.message
   }
-}
-
-onMounted(fetchData)
+})
 </script>
 
 <template>
+  <div v-if="error">{{ error }}</div>
+  <div v-else>
   <div class="container">
     <h1> Livres </h1>
     <div class="books-list">
@@ -36,6 +35,7 @@ onMounted(fetchData)
       </div>
     </div>
   </div>
+</div>
 </template>
 
 

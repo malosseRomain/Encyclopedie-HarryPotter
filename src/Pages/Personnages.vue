@@ -1,36 +1,32 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import axios from "axios"
+const controller = require('../controllers/personnagesController');
 
 const list = ref([])
 const pageNumber = ref(1)
+const error = ref(null)
 
-const fetchData = async () => {
+onMounted(async () => {
   try {
-    let result = await axios.get(`https://api.potterdb.com/v1/characters?page[size]=16&page[number]=${pageNumber.value}`);
-    list.value = result.data.data
-  } catch (error) {
-    console.error("Une erreur s'est produite :", error)
+    list.value = await controller.fetchData(pageNumber.value)
+  } catch (err) {
+    error.value = err.message
   }
+})
+
+const nextPage = async () => {
+   list.value, pageNumber.value = await controller.nextPage(pageNumber.value);
 }
 
-onMounted(fetchData)
-
-const nextPage = () => {
-  pageNumber.value++
-  fetchData()
-}
-
-const previousPage = () => {
-  if (pageNumber.value > 1) {
-    pageNumber.value--
-    fetchData()
-  }
+const previousPage = async () => {
+   list.value, pageNumber.value = await controller.previousPage(pageNumber.value);
 }
 </script>
 
 <template>
-  <div class="container">
+  <div v-if="error">{{ error }}</div>
+  <div v-else>
+    <div class="container">
     <h1> Personnages </h1>
     <div class="characters-list">
       <div v-for="item in list" :key="item.id" class="characters-item">
@@ -53,6 +49,7 @@ const previousPage = () => {
       <span>Page {{ pageNumber }}</span>
       <button @click="nextPage">Page Suivante</button>
     </div>
+  </div>
   </div>
 </template>
 
