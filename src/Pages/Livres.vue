@@ -84,6 +84,7 @@ onMounted(fetchData)
 .books-details {
   border-bottom: 1px solid #ccc;
   height: 600px;
+  color: black;
 }
 
 a {
