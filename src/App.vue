@@ -2,13 +2,13 @@
 import { ref } from 'vue'
 
 const liens = ref([
-  {title : 'Potions', route : '/Potions'},
-  {title : 'Sorts', route : '/Sorts'},
-  {title : 'Livres', route : '/Livres'},
-  {title : 'Personnages', route : '/Personnages'}
+  { title: 'Potions', route: '/Potions' },
+  { title: 'Sorts', route: '/Sorts' },
+  { title: 'Livres', route: '/Livres' },
+  { title: 'Personnages', route: '/Personnages' }
 ])
 
-const accueil = ref({title : 'Accueil', route : '/'})
+const accueil = ref({ title: 'Accueil', route: '/' })
 
 </script>
 
@@ -23,7 +23,7 @@ const accueil = ref({title : 'Accueil', route : '/'})
     </ul>
   </header>
 
-  <router-view/>
+  <router-view />
 </template>
 
 <style scoped>
@@ -37,6 +37,7 @@ header {
   align-items: center;
   padding: 1rem 2rem;
   background-color: var(--header-background, #cfc8c8);
+  z-index: 1;
 }
 
 header div,
