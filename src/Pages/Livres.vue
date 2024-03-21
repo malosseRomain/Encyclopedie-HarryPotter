@@ -49,9 +49,17 @@ onMounted(fetchData)
   text-align: center;
 }
 
+span{
+  font-weight: bold;
+}
+
+h1 {
+  color: #000000;
+}
+
 .books-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
   grid-gap: 30px;
   justify-items: center;
 }
@@ -59,19 +67,19 @@ onMounted(fetchData)
 .books-item {
   background-color: rgb(241, 237, 237);
   width: 100%;
-  overflow: hidden;
   transition: transform 0.3s ease-in-out;
 }
 
 .item-details {
-  border-bottom: 1px solid #ccc;
+  border-bottom: 3px solid #000000;
 }
 
 .books-item:hover {
-  transform: scale(1.05);
+  transform: scale(1.02);
 }
 
 .padding {
+  padding-bottom: 20px;
   padding-right: 20px;
   padding-left: 20px;
 }
@@ -83,7 +91,7 @@ onMounted(fetchData)
 
 .books-details {
   border-bottom: 1px solid #ccc;
-  height: 600px;
+  height: 400px;
   color: black;
 }
 
@@ -94,6 +102,8 @@ a {
 
 .PrettyDisplay {
   text-align: justify;
+  overflow: auto;
+  height: 32%;
 }
 
 .Wiki {
