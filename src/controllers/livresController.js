@@ -1,10 +1,10 @@
-import { getLivres } from '../models/livresModel'
+import axios from "axios"
 
-export const fetchData = async () => {
+export const getLivres = async (pageNumber) => {
     try {
-        let result = await getLivres();
-        return result;
-    } catch (err) {
-        error.value = err.message
+        let result = await axios.get(`https://api.potterdb.com/v1/books`);
+        return result.data.data;
+    } catch (error) {
+        throw new Error("Une erreur est survenue : " + error);
     }
 }

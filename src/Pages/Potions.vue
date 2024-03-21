@@ -1,56 +1,66 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-const controller = require('../controllers/potionsController');
+import { getPotions } from '../controllers/potionsController';
+
 
 const list = ref([])
 const pageNumber = ref(1)
-const error = ref(null)
+const erreur = ref(0);
 
-onMounted(async () => {
+const fetchData = async () => {
   try {
-    list.value = await controller.fetchData(pageNumber.value)
-  } catch (err) {
-    error.value = err.message
+    list.value = await getPotions(pageNumber.value);
+    erreur.value = 0;
+  } catch (error) {
+    erreur.value = error.response.status;
   }
-})
+}
+
 
 const nextPage = async () => {
-   list.value, pageNumber.value = await controller.nextPage(pageNumber.value);
+  pageNumber.value++;
+  fetchData();
 }
 
 const previousPage = async () => {
-   list.value, pageNumber.value = await controller.previousPage(pageNumber.value);
+  if (pageNumber.value > 1) {
+    pageNumber.value--
+    fetchData();
+  }
 }
+
+onMounted(fetchData);
 </script>
 
 <template>
-      <div v-if="error">{{ error }}</div>
+  <div v-if="erreur !== 0">{{ erreur }}</div>
   <div v-else>
-  <div class="container">
-    <h1> Potions </h1>
-    <div class="potions-list">
-      <div v-for="item in list" :key="item.id" class="potion-item">
-        <img :src="item.attributes.image" alt="Image de la potion" />
-        <div class="potion-details">
-          <p v-if="item.attributes.name"><span>Nom : </span>{{ item.attributes.name }}</p>
-          <p v-if="item.attributes.difficulty"><span>Difficulté : </span>{{ item.attributes.difficulty }}</p>
-          <p v-if="item.attributes.time"><span>Temps : </span>{{ item.attributes.time }}</p>
-          <p v-if="item.attributes.inventors"><span>Créateur : </span>{{ item.attributes.inventors }}</p>
-          <p v-if="item.attributes.ingredients"><span>Ingrédients : </span> {{ item.attributes.ingredients }}</p>
-          <p v-if="item.attributes.effect"><span>Effet :</span> {{ item.attributes.effect }}</p>
-          <p v-if="item.attributes.side_effects"><span>Effet secondaire : </span>{{ item.attributes.side_effects }}</p>
+    <div class="container">
+      <h1> Potions </h1>
+      <div class="potions-list">
+        <div v-for="item in list" :key="item.id" class="potion-item">
+          <img :src="item.attributes.image" alt="Image de la potion" />
+          <div class="potion-details">
+            <p v-if="item.attributes.name"><span>Nom : </span>{{ item.attributes.name }}</p>
+            <p v-if="item.attributes.difficulty"><span>Difficulté : </span>{{ item.attributes.difficulty }}</p>
+            <p v-if="item.attributes.time"><span>Temps : </span>{{ item.attributes.time }}</p>
+            <p v-if="item.attributes.inventors"><span>Créateur : </span>{{ item.attributes.inventors }}</p>
+            <p v-if="item.attributes.ingredients"><span>Ingrédients : </span> {{ item.attributes.ingredients }}</p>
+            <p v-if="item.attributes.effect"><span>Effet :</span> {{ item.attributes.effect }}</p>
+            <p v-if="item.attributes.side_effects"><span>Effet secondaire : </span>{{ item.attributes.side_effects }}
+            </p>
+          </div>
+          <a :href="item.attributes.wiki">
+            <p>En savoir plus avec le wiki</p>
+          </a>
         </div>
-        <a :href="item.attributes.wiki">
-          <p>En savoir plus avec le wiki</p>
-        </a>
+      </div>
+      <div class="pagination">
+        <button @click="previousPage">Page Précédente</button>
+        <span>Page {{ pageNumber }}</span>
+        <button @click="nextPage">Page Suivante</button>
       </div>
     </div>
-    <div class="pagination">
-      <button @click="previousPage">Page Précédente</button>
-      <span>Page {{ pageNumber }}</span>
-      <button @click="nextPage">Page Suivante</button>
-    </div>
-  </div>
   </div>
 </template>
 
@@ -76,7 +86,8 @@ const previousPage = async () => {
 
 .potion-item img {
   max-width: 100%;
-  max-height: 200px; /* Vous pouvez ajuster cette valeur en fonction de la taille souhaitée */
+  max-height: 200px;
+  /* Vous pouvez ajuster cette valeur en fonction de la taille souhaitée */
   height: auto;
   display: block;
 }

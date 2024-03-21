@@ -1,26 +1,10 @@
-import { getSorts } from '../models/sortsModel'
+import axios from "axios"
 
-const fetchData = async (pageNumber) => {
+export const getSorts = async (pageNumber) => {
     try {
-        let result = await getSorts(pageNumber);
-        return result;
-    } catch (err) {
-        error.value = err.message
+        let result = await axios.get(`https://api.potterdb.com/v1/spells?page[size]=16&page[number]=${pageNumber}`);
+        return result.data.data;
+    } catch (error) {
+        throw new Error("Une erreur est survenue : " + error);
     }
 }
-
-const nextPage = async (pageNumber) => {
-    pageNumber++;
-    let result = await fetchData(pageNumber);
-    return { result, pageNumber };
-}
-
-const previousPage = async (pageNumber) => {
-    if (pageNumber > 1) {
-        pageNumber--
-        let result = await fetchData(pageNumber);
-        return { result, pageNumber };
-    }
-}
-
-module.exports = { fetchData, nextPage, previousPage };

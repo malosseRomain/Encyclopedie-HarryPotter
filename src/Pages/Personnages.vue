@@ -1,55 +1,64 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-const controller = require('../controllers/personnagesController');
+import { getPersonnages } from '../controllers/personnagesController';
+
 
 const list = ref([])
 const pageNumber = ref(1)
-const error = ref(null)
+const erreur = ref(0);
 
-onMounted(async () => {
+const fetchData = async () => {
   try {
-    list.value = await controller.fetchData(pageNumber.value)
-  } catch (err) {
-    error.value = err.message
+    list.value = await getPersonnages(pageNumber.value);
+    erreur.value = 0;
+  } catch (error) {
+    erreur.value = error.response.status;
   }
-})
+}
+
 
 const nextPage = async () => {
-   list.value, pageNumber.value = await controller.nextPage(pageNumber.value);
+  pageNumber.value++;
+  fetchData();
 }
 
 const previousPage = async () => {
-   list.value, pageNumber.value = await controller.previousPage(pageNumber.value);
+  if (pageNumber.value > 1) {
+    pageNumber.value--
+    fetchData();
+  }
 }
+
+onMounted(fetchData);
 </script>
 
 <template>
-  <div v-if="error">{{ error }}</div>
+  <div v-if="erreur !== 0">{{ erreur }}</div>
   <div v-else>
     <div class="container">
-    <h1> Personnages </h1>
-    <div class="characters-list">
-      <div v-for="item in list" :key="item.id" class="characters-item">
-        <img :src="item.attributes.image" alt="Image du personnage" />
-        <div class="characters-details">
-          <p v-if="item.attributes.name"><span>Nom : </span>{{ item.attributes.name }}</p>
-          <p v-if="item.attributes.house"><span>Maison : </span>{{ item.attributes.house }}</p>
-          <p v-if="item.attributes.born"><span>La date et le lieu de naissance : </span>{{ item.attributes.born }}</p>
-          <p v-if="item.attributes.died"><span>La date et le lieu de décès : </span>{{ item.attributes.died }}</p>
-          <p v-if="item.attributes.animagus"><span>Animagus : </span>{{ item.attributes.animagus }}</p>
-          <p v-if="item.attributes.boggart"><span>Épouvantard  : </span>{{ item.attributes.boggart }}</p>
+      <h1> Personnages </h1>
+      <div class="characters-list">
+        <div v-for="item in list" :key="item.id" class="characters-item">
+          <img :src="item.attributes.image" alt="Image du personnage" />
+          <div class="characters-details">
+            <p v-if="item.attributes.name">Nom: {{ item.attributes.name }}</p>
+            <p v-if="item.attributes.house">Maison : {{ item.attributes.house }}</p>
+            <p v-if="item.attributes.born">La date et le lieu de naissance : {{ item.attributes.born }}</p>
+            <p v-if="item.attributes.died">La date et le lieu de décès : {{ item.attributes.died }}</p>
+            <p v-if="item.attributes.animagus">Animagus : {{ item.attributes.animagus }}</p>
+            <p v-if="item.attributes.boggart">Épouvantard : {{ item.attributes.boggart }}</p>
+          </div>
+          <a :href="item.attributes.wiki">
+            <p>En savoir plus avec le wiki</p>
+          </a>
         </div>
-        <a :href="item.attributes.wiki">
-          <p>En savoir plus avec le wiki</p>
-        </a>
+      </div>
+      <div class="pagination">
+        <button @click="previousPage">Page Précédente</button>
+        <span>Page {{ pageNumber }}</span>
+        <button @click="nextPage">Page Suivante</button>
       </div>
     </div>
-    <div class="pagination">
-      <button @click="previousPage">Page Précédente</button>
-      <span>Page {{ pageNumber }}</span>
-      <button @click="nextPage">Page Suivante</button>
-    </div>
-  </div>
   </div>
 </template>
 
@@ -75,7 +84,8 @@ const previousPage = async () => {
 
 .characters-item img {
   max-width: 100%;
-  max-height: 200px; /* Vous pouvez ajuster cette valeur en fonction de la taille souhaitée */
+  max-height: 200px;
+  /* Vous pouvez ajuster cette valeur en fonction de la taille souhaitée */
   height: auto;
   display: block;
 }

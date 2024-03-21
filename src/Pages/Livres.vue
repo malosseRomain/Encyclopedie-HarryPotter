@@ -1,41 +1,45 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import { fetchData } from '../controllers/livresController';
+import { getLivres } from '../controllers/livresController';
 
 const list = ref([])
-const error = ref(null)
+const erreur = ref(0);
 
-onMounted(async () => {
+const fetchData = async () => {
   try {
-    list.value = await fetchData()
-  } catch (err) {
-    error.value = err.message
+    list.value = await getLivres(pageNumber.value);
+    erreur.value = 0;
+  } catch (error) {
+    erreur.value = error.response.status;
   }
-})
+}
+
+
+onMounted(fetchData)
 </script>
 
 <template>
-  <div v-if="error">{{ error }}</div>
+  <div v-if="erreur !== 0">{{ erreur }}</div>
   <div v-else>
-  <div class="container">
-    <h1> Livres </h1>
-    <div class="books-list">
-      <div v-for="item in list" :key="item.id" class="books-item">
-        <img v-if="item.attributes.cover" :src="item.attributes.cover" alt="Image du livre" />
-        <div class="potion-details">
-          <p v-if="item.attributes.title"><span>Nom : </span>{{ item.attributes.title }}</p>
-          <p v-if="item.attributes.pages"><span>Nombre de page : </span>{{ item.attributes.pages }}</p>
-          <p v-if="item.attributes.release_date"><span>Date de sortie : </span>{{ item.attributes.release_date }}</p>
-          <p v-if="item.attributes.author"><span>Créateur : </span>{{ item.attributes.author }}</p>
-          <p v-if="item.attributes.summary"><span>Résumé :</span> {{ item.attributes.summary }}</p>
+    <div class="container">
+      <h1> Livres </h1>
+      <div class="books-list">
+        <div v-for="item in list" :key="item.id" class="books-item">
+          <img v-if="item.attributes.cover" :src="item.attributes.cover" alt="Image du livre" />
+          <div class="potion-details">
+            <p v-if="item.attributes.title"><span>Nom : </span>{{ item.attributes.title }}</p>
+            <p v-if="item.attributes.pages"><span>Nombre de page : </span>{{ item.attributes.pages }}</p>
+            <p v-if="item.attributes.release_date"><span>Date de sortie : </span>{{ item.attributes.release_date }}</p>
+            <p v-if="item.attributes.author"><span>Créateur : </span>{{ item.attributes.author }}</p>
+            <p v-if="item.attributes.summary"><span>Résumé :</span> {{ item.attributes.summary }}</p>
+          </div>
+          <a :href="item.attributes.wiki">
+            <p>En savoir plus avec le wiki</p>
+          </a>
         </div>
-        <a :href="item.attributes.wiki">
-          <p>En savoir plus avec le wiki</p>
-        </a>
       </div>
     </div>
   </div>
-</div>
 </template>
 
 
@@ -61,7 +65,8 @@ onMounted(async () => {
 
 .books-item img {
   max-width: 100%;
-  max-height: 200px; /* Vous pouvez ajuster cette valeur en fonction de la taille souhaitée */
+  max-height: 200px;
+  /* Vous pouvez ajuster cette valeur en fonction de la taille souhaitée */
   height: auto;
   display: block;
 }
