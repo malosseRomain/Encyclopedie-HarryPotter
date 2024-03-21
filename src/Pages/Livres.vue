@@ -26,17 +26,12 @@ onMounted(fetchData)
       <div class="books-list">
         <div v-for="item in list" :key="item.id" class="books-item">
           <img v-if="item.attributes.cover" :src="item.attributes.cover" alt="Image du livre" />
-          <div class="potion-details">
-            <p v-if="item.attributes.title" class="item-details padding"><span>Nom : </span>{{ item.attributes.title }}
-            </p>
-            <p v-if="item.attributes.pages" class="item-details padding"><span>Nombre de page : </span>{{
-    item.attributes.pages }}</p>
-            <p v-if="item.attributes.release_date" class="item-details padding"><span>Date de sortie : </span>{{
-    item.attributes.release_date }}</p>
-            <p v-if="item.attributes.author" class="item-details padding"><span>Créateur : </span>{{
-    item.attributes.author }}</p>
-            <p v-if="item.attributes.summary" class="PrettyDisplay padding"><span>Résumé :</span> {{
-    item.attributes.summary }}</p>
+          <div class="books-details">
+            <p v-if="item.attributes.title" class="item-details padding"><span>Nom : </span>{{ item.attributes.title }}</p>
+            <p v-if="item.attributes.pages" class="item-details padding"><span>Nombre de page : </span>{{item.attributes.pages }}</p>
+            <p v-if="item.attributes.release_date" class="item-details padding"><span>Date de sortie : </span>{{item.attributes.release_date }}</p>
+            <p v-if="item.attributes.author" class="item-details padding"><span>Créateur : </span>{{item.attributes.author }}</p>
+            <p v-if="item.attributes.summary" class="PrettyDisplay padding"><span>Résumé :</span> {{item.attributes.summary }}</p>
           </div>
           <a :href="item.attributes.wiki">
             <p class="Wiki">En savoir plus avec le wiki</p>
@@ -103,5 +98,6 @@ a {
 .Wiki {
   background-color: rgba(0, 123, 255, 1);
   padding: 15px;
+  margin: 0;
 }
 </style>

@@ -54,6 +54,7 @@ ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
+  margin-right: 60px;
 }
 
 ul li {
