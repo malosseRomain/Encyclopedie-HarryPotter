@@ -1,47 +1,60 @@
-
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted } from 'vue';
 import { getPersonnages } from '../controllers/personnagesController';
 
-const list = ref([])
-const pageNumber = ref(1)
+const list = ref([]);
+const pageNumber = ref(1);
 const erreur = ref(0);
 const defaultImageURL = new URL('../DefaultImg/character.png', import.meta.url).href;
+const searchQuery = ref('');
 
 const fetchData = async () => {
- try {
- list.value = await getPersonnages(pageNumber.value);
- erreur.value = 0;
- } catch (error) {
- erreur.value = error.response.status;
- }
-}
+  try {
+    const query = searchQuery.value ? `?filter[name_cont]=${searchQuery.value}` : '';
+    list.value = await getPersonnages(pageNumber.value + query);
+    erreur.value = 0;
+
+    // Scroll to the top of the page
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } catch (error) {
+    erreur.value = error.response.status;
+  }
+};
 
 const nextPage = async () => {
- pageNumber.value++;
- fetchData();
-}
+  pageNumber.value++;
+  fetchData();
+};
 
 const previousPage = async () => {
- if (pageNumber.value > 1) {
- pageNumber.value--
- fetchData();
- }
-}
+  if (pageNumber.value > 1) {
+    pageNumber.value--;
+    fetchData();
+  }
+};
 
 const setDefaultImage = (event) => {
- event.target.src = defaultImageURL;
-}
+  event.target.src = defaultImageURL;
+};
+
+const searchCharacters = () => {
+  pageNumber.value = 1; // Reset page number when performing a new search
+  fetchData();
+};
 
 onMounted(fetchData);
 </script>
 
 
 <template>
- <div v-if="erreur !== 0">{{ erreur }}</div>
- <div v-else>
+  <div v-if="erreur !== 0">{{ erreur }}</div>
+  <div v-else>
     <div class="container">
-      <h1> Personnages </h1>
+      <h1>Personnages</h1>
+      <div class="search-bar">
+        <input type="text" placeholder="Rechercher..." v-model="searchQuery">
+        <button @click="searchCharacters">Rechercher</button>
+      </div>
       <div class="characters-list">
         <div v-for="item in list" :key="item.id" class="characters-item">
           <img v-if="item.attributes.image" :src="item.attributes.image" alt="Image du personnage" @error="setDefaultImage" />
@@ -57,9 +70,9 @@ onMounted(fetchData);
         </div>
       </div>
       <div class="pagination">
-        <button @click="previousPage">Page Précédente</button>
+        <button class="btnChangePage" @click="previousPage">Page Précédente</button>
         <span class="pageNumber">{{ pageNumber }}</span>
-        <button @click="nextPage">Page Suivante</button>
+        <button class="btnChangePage" @click="nextPage">Page Suivante</button>
       </div>
     </div>
  </div>
@@ -70,6 +83,11 @@ onMounted(fetchData);
 .container {
  padding: 20px;
  text-align: center;
+}
+
+.btnChangePage {
+  background-color: #4c8a3c;
+  cursor: pointer;
 }
 
 span{
@@ -90,7 +108,7 @@ h1 {
 .characters-item {
  background-color: rgb(241, 237, 237);
  width: 100%;
-height: 840px;
+ height: 900px;
  border: 10px double #4c8a3c;
  border-radius: 25px;
  transition: transform 0.3s ease-in-out;
@@ -114,14 +132,18 @@ height: 840px;
 } 
 
 .characters-item img {
- width: 100%;
  height: 60%;
  border-radius: 15px;
+ margin-top: 40px;
+}
+
+img {
+ max-width: 100%;
 }
 
 .characters-details {
  border-bottom: 1px solid #ccc;
- height: 35%;
+ height: 30%;
  color: black;
 }
 
