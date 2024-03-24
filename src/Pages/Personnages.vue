@@ -90,6 +90,31 @@ onMounted(fetchData);
   cursor: pointer;
 }
 
+.search-bar {
+  margin-bottom: 40px;
+}
+
+.search-bar input {
+  width: 70%;
+  padding: 10px;
+  border: 2px solid #525050;
+  border-radius: 5px;
+  font-size: 16px;
+  background-color: rgb(243, 243, 243);
+  color: #000000;
+  margin-right: 20px;
+}
+
+.search-bar button {
+  padding: 10px 20px;
+  background-color: #4c8a3c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
 span{
  font-weight: bold;
 }
@@ -159,6 +184,11 @@ img {
  border-radius: 0 0 14px 14px;
  height: 3%;
 }
+
+.Wiki:hover {
+ background-color: rgba(0, 123, 255, 0.8);
+}
+
 
 .pagination {
  margin-top: 40px;
