@@ -4,6 +4,7 @@ import { getPersonnages } from '../controllers/personnagesController';
 
 const list = ref([]);
 const pageNumber = ref(1);
+const pageNumberInput = ref(1); // Nouvelle variable pour le numéro de page saisi par l'utilisateur
 const erreur = ref(0);
 const defaultImageURL = new URL('../DefaultImg/character.png', import.meta.url).href;
 const searchQuery = ref('');
@@ -11,15 +12,16 @@ const searchQuery = ref('');
 const fetchData = async () => {
   try {
     const query = searchQuery.value ? `&filter[name_cont]=${searchQuery.value}` : '';
-    list.value = await getPersonnages(`?page[size]=16&page[number]=${pageNumber}${query}`);
+    list.value = await getPersonnages(`?page[size]=16&page[number]=${pageNumber.value}${query}`);
     erreur.value = 0;
 
-    //Revient en haut de la page après chaque recherche ou changement de page
+    // Revient en haut de la page après chaque recherche ou changement de page
     window.scrollTo({ top: 0, behavior: 'smooth' });
   } catch (error) {
     erreur.value = error.response.status;
   }
 };
+
 
 const nextPage = async () => {
   pageNumber.value++;
@@ -33,22 +35,28 @@ const previousPage = async () => {
   }
 };
 
+const goToPage = () => {
+  pageNumber.value = pageNumberInput.value; // Définit la page actuelle sur la valeur saisie par l'utilisateur
+  fetchData(); // Charge les données de la nouvelle page
+};
+
 const setDefaultImage = (event) => {
   event.target.src = defaultImageURL;
 };
 
 const searchCharacters = () => {
-  pageNumber.value = 1; // Reset page number when performing a new search
+  pageNumber.value = 1; 
   fetchData();
-  searchQuery.value = ''; // Clear the search query
+  searchQuery.value = ''; 
 };
 
 const reloadPage = () => {
-  window.location.reload(); // Recharge la page
+  window.location.reload(); 
 };
 
 onMounted(fetchData);
 </script>
+
 
 
 <template>
@@ -81,7 +89,7 @@ onMounted(fetchData);
       </div>
       <div class="pagination">
         <button class="btnChangePage" @click="previousPage">Page Précédente</button>
-        <span class="pageNumber">{{ pageNumber }}</span>
+        <input type="number" v-model.lazy="pageNumberInput" @keyup.enter="goToPage" class="inputPagination">
         <button class="btnChangePage" @click="nextPage">Page Suivante</button>
       </div>
     </div>
@@ -96,6 +104,29 @@ onMounted(fetchData);
 .btnChangePage {
   background-color: #4c8a3c;
   cursor: pointer;
+}
+
+.pageNumber {
+  font-size: 20px;
+  color: #000000;
+  margin: 0 20px;
+}
+
+.pagination {
+  margin: 50px;
+  padding-right: 20px;
+}
+
+.inputPagination {
+  width: 50px; 
+  padding: 5px;
+  border: 2px solid #4c8a3c; 
+  border-radius: 5px; 
+  font-size: 16px; 
+  text-align: center; 
+  background-color: rgb(243, 243, 243); 
+  color: #000000; 
+  margin: 0 20px; 
 }
 
 .search-bar {
@@ -203,4 +234,6 @@ img {
   color: red;
   margin-top: 20px;
 }
+
+
 </style>
