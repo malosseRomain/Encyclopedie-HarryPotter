@@ -40,29 +40,28 @@ onMounted(fetchData);
 <template>
  <div v-if="erreur !== 0">{{ erreur }}</div>
  <div v-else>
-  <div class="container">
-    <h1> Personnages </h1>
-    <div class="characters-list">
-    <div v-for="item in list" :key="item.id" class="characters-item">
-      <img v-if="item.attributes.image" :src="item.attributes.image" alt="Image du personnage" @error="setDefaultImage" />
-      <img v-else :src="defaultImageURL" alt="Image par défaut" />
-    <div class="characters-details">
-      <p class="item-details padding"><span>Nom : </span>{{ item.attributes.name || "N/A" }}</p>
-      <p class="item-details padding"><span>Maison : </span>{{ item.attributes.house || "N/A" }}</p>
-      <p class="item-details padding"><span>La date et le lieu de naissance : </span>{{ item.attributes.born || "N/A" }}</p>
-      <p class="padding"><span>La date et le lieu de décès : </span>{{ item.attributes.died || "N/A" }}</p>
+    <div class="container">
+      <h1> Personnages </h1>
+      <div class="characters-list">
+        <div v-for="item in list" :key="item.id" class="characters-item">
+          <img v-if="item.attributes.image" :src="item.attributes.image" alt="Image du personnage" @error="setDefaultImage" />
+          <img v-else :src="defaultImageURL" alt="Image par défaut" />
+          <div class="characters-details">
+            <p class="item-details padding"><span>Nom : </span>{{ item.attributes.name || "N/A" }}</p>
+            <p class="item-details padding"><span>Maison : </span>{{ item.attributes.house || "N/A" }}</p>
+            <p class="padding"><span>La date et le lieu de naissance : </span>{{ item.attributes.born || "N/A" }}</p>
+            <a :href="item.attributes.wiki">
+              <p class="Wiki">En savoir plus avec le wiki</p>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="pagination">
+        <button @click="previousPage">Page Précédente</button>
+        <span class="pageNumber">{{ pageNumber }}</span>
+        <button @click="nextPage">Page Suivante</button>
+      </div>
     </div>
-    <a :href="item.attributes.wiki">
-      <p class="Wiki">En savoir plus avec le wiki</p>
-    </a>
-  </div>
-  </div>
-  <div class="pagination">
-    <button @click="previousPage">Page Précédente</button>
-    <span>Page {{ pageNumber }}</span>
-    <button @click="nextPage">Page Suivante</button>
-  </div>
- </div>
  </div>
 </template>
 
@@ -91,6 +90,7 @@ h1 {
 .characters-item {
  background-color: rgb(241, 237, 237);
  width: 100%;
+height: 840px;
  border: 10px double #4c8a3c;
  border-radius: 25px;
  transition: transform 0.3s ease-in-out;
@@ -99,8 +99,8 @@ h1 {
 
 .item-details {
  border-bottom: 3px solid #000000;
- overflow: auto;
- height: ;
+ height: 10%;
+ margin-top: 20px;
 }
 
 .characters-item:hover {
@@ -108,21 +108,20 @@ h1 {
 }
 
 .padding {
-  padding-top: 7px;
- padding-right: 20px;
- padding-left: 20px;
- height: 17%;
+  overflow: auto;
+  padding: 10px 30px;
+  height: 17%;
 } 
 
 .characters-item img {
  width: 100%;
- height: 50%;
+ height: 60%;
  border-radius: 15px;
 }
 
 .characters-details {
  border-bottom: 1px solid #ccc;
- height: 40%;
+ height: 35%;
  color: black;
 }
 
@@ -136,6 +135,17 @@ h1 {
  right: 0;
  color: white;
  border-radius: 0 0 14px 14px;
- height: 4%;
+ height: 3%;
+}
+
+.pagination {
+ margin-top: 40px;
+ margin-right: 20px;
+}
+
+.pageNumber {
+  margin: 0 20px;
+  font-size: 20px;
+  color: #000000;
 }
 </style>
