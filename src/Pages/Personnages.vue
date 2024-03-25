@@ -26,18 +26,21 @@ const fetchData = async () => {
 const nextPage = async () => {
   pageNumber.value++;
   fetchData();
+  scrollToTop();
 };
 
 const previousPage = async () => {
   if (pageNumber.value > 1) {
     pageNumber.value--;
     fetchData();
+    scrollToTop();
   }
 };
 
 const goToPage = () => {
-  pageNumber.value = pageNumber.value; // Pour mettre à jour de PageNumber
+  pageNumber.value = pageNumber.value;
   fetchData(); 
+  scrollToTop();
 };
 
 const setDefaultImage = (event) => {
@@ -48,6 +51,7 @@ const searchCharacters = () => {
   pageNumber.value = 1; 
   fetchData();
   searchQuery.value = ''; 
+  scrollToTop();
 };
 
 const reloadPage = () => {
@@ -58,8 +62,13 @@ const calculateTotalPages = (totalItems, itemsPerPage) => {
   return Math.ceil(totalItems / itemsPerPage);
 };
 
+const scrollToTop = () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
 onMounted(fetchData);
 </script>
+
 
 
 
