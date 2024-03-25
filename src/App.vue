@@ -8,25 +8,46 @@ const liens = ref([
   { title: 'Personnages', route: '/Personnages' }
 ])
 
-const accueil = ref({ title: 'Accueil', route: '/' })
+const backgroundImg = new URL('DefaultImg/castleBackground.jpg', import.meta.url).href;
 
+const setBackgroundImage = (event) => {
+  event.target.src = backgroundImg;
+};
+
+const accueil = ref({ title: 'Accueil', route: '/' })
 </script>
 
 <template>
-  <header>
-    <div><router-link :to='accueil.route'>{{ accueil.title }}</router-link></div>
+  <div class="background-image">
+    <header>
+      <div><router-link :to='accueil.route'>{{ accueil.title }}</router-link></div>
 
-    <ul>
-      <li v-for="(lien, index) in liens" :key="index">
-        <router-link :to='lien.route'>{{ lien.title }}</router-link>
-      </li>
-    </ul>
-  </header>
+      <ul>
+        <li v-for="(lien, index) in liens" :key="index">
+          <router-link :to='lien.route'>{{ lien.title }}</router-link>
+        </li>
+      </ul>
+    </header>
 
-  <router-view />
+    <!-- Contenu de la page -->
+    <router-view />
+  </div>
 </template>
 
 <style scoped>
+.background-image {
+  top: 0;
+  left: 0;
+  height: 100vh; /* 100% de la hauteur de la fenêtre */
+  z-index: -1;
+  background-image: url("DefaultImg/castleBackground.jpg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+
+
 header {
   position: fixed;
   top: 0;
