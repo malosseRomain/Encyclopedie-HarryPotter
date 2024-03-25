@@ -71,7 +71,7 @@ const reloadPage = () => {
 };
 
 const calculateTotalPages = (totalItems, itemsPerPage) => {
-  return Math.ceil(totalItems / itemsPerPage);
+  return Math.ceil(17*10 / 10);
 };
 
 const scrollToTop = () => {

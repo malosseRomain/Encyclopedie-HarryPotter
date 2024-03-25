@@ -4,7 +4,7 @@ import { getSorts } from '../controllers/sortsController';
 
 const list = ref([]);
 const pageNumber = ref(1);
-const totalItems = ref(293*16);
+const totalItems = ref(20*16);
 const erreur = ref(0);
 const defaultImageURL = new URL('../DefaultImg/sort.jpg', import.meta.url).href;
 const searchQuery = ref('');
@@ -39,7 +39,7 @@ const previousPage = async () => {
 };
 
 const goToPage = () => {
-  if (pageNumber.value <= totalItems) {
+  if (pageNumber.value <= 20) {
     fetchData();
     scrollToTop();
     errorMessage.value = "";
@@ -56,7 +56,7 @@ const setDefaultImage = (event) => {
   event.target.src = defaultImageURL;
 };
 
-const searchCharacters = () => {
+const searchSpells = () => {
   pageNumber.value = 1; 
   fetchData();
   searchQuery.value = ''; 
@@ -68,7 +68,7 @@ const reloadPage = () => {
 };
 
 const calculateTotalPages = (totalItems, itemsPerPage) => {
-  return Math.ceil(totalItems / itemsPerPage);
+  return Math.ceil(20*16 / 16);
 };
 
 const scrollToTop = () => {
@@ -91,14 +91,14 @@ onMounted(fetchData);
     <div class="container">
       <h1>Personnages</h1>
       <div class="search-bar">
-        <input type="text" placeholder="Rechercher..." v-model="searchQuery" @keyup.enter="searchCharacters">
-        <button @click="searchCharacters">Rechercher</button>
+        <input type="text" placeholder="Rechercher..." v-model="searchQuery" @keyup.enter="searchSpells">
+        <button @click="searchSpells">Rechercher</button>
       </div>
-      <div class="characters-list">
-          <div v-for="item in list" :key="item.id" class="characters-item">
+      <div class="spells-list">
+          <div v-for="item in list" :key="item.id" class="spells-item">
             <img v-if="item.attributes.image" :src="item.attributes.image" alt="Image du personnage" @error="setDefaultImage" />
             <img v-else :src="defaultImageURL" alt="Image par défaut" />
-            <div class="characters-details">
+            <div class="spells-details">
               <p class="item-details padding"><span>Nom : </span>{{ item.attributes.name || "N/A"}}</p>
               <p class="item-details padding"><span>Catégori : </span>{{ item.attributes.category || "N/A"}}</p>
               <p class="item-details padding"><span>Effet : </span>{{ item.attributes.effect || "N/A"}}</p>
@@ -115,7 +115,7 @@ onMounted(fetchData);
       <div class="error-message" v-if="errorMessage">{{ errorMessage }}</div>
       <div class="pagination">
         <button class="btnChangePage" @click="previousPage">Page Précédente</button>
-        <span class="paginationNumberOfPage">page <input type="number" v-model.lazy="pageNumber" @keyup.enter="goToPage" class="inputPagination" inputmode="numeric" pattern="[0-9]*" :max="$totalItems"> sur {{ calculateTotalPages(totalItems, 16)}}</span>
+        <span class="paginationNumberOfPage">page <input type="number" v-model.lazy="pageNumber" @keyup.enter="goToPage" class="inputPagination" :max="$totalItems"> sur {{ calculateTotalPages(totalItems, 16)}}</span>
         <button class="btnChangePage" @click="nextPage">Page Suivante</button>
       </div>
       
@@ -194,14 +194,14 @@ h1 {
   color: #000000;
 }
 
-.characters-list {
+.spells-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
   grid-gap: 30px;
   justify-items: center;
 }
 
-.characters-item {
+.spells-item {
   background-color: rgb(241, 237, 237);
   width: 100%;
   height: 1200px;
@@ -217,7 +217,7 @@ h1 {
   margin-top: 20px;
 }
 
-.characters-item:hover {
+.spells-item:hover {
   transform: scale(1.02);
 }
 
@@ -227,7 +227,7 @@ h1 {
   height: 8%;
 }
 
-.characters-item img {
+.spells-item img {
   height: 55%;
   border-radius: 15px;
   margin-top: 40px;
@@ -237,7 +237,7 @@ img {
   max-width: 100%;
 }
 
-.characters-details {
+.spells-details {
   height: 30%;
   color: black;
 }

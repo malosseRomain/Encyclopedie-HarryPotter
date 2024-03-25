@@ -39,10 +39,10 @@ const previousPage = async () => {
 };
 
 const goToPage = () => {
-  if (pageNumber.value <= totalItems) {
+  if (pageNumber.value <= 293) {
     fetchData();
     scrollToTop();
-    errorMessage.value = "";
+    errorMessage.value = ""; // Réinitialiser le message d'erreur si la condition est valide
   } else {
     errorMessage.value = "Le numéro de page est trop élevé.";
 
@@ -68,7 +68,7 @@ const reloadPage = () => {
 };
 
 const calculateTotalPages = (totalItems, itemsPerPage) => {
-  return Math.ceil(totalItems / itemsPerPage);
+  return Math.ceil(293*16 / 16);
 };
 
 const scrollToTop = () => {
@@ -112,7 +112,7 @@ onMounted(fetchData);
       <div class="error-message" v-if="errorMessage">{{ errorMessage }}</div>
       <div class="pagination">
         <button class="btnChangePage" @click="previousPage">Page Précédente</button>
-        <span class="paginationNumberOfPage">page <input type="number" v-model.lazy="pageNumber" @keyup.enter="goToPage" class="inputPagination" inputmode="numeric" pattern="[0-9]*" :max="$totalItems"> sur {{ calculateTotalPages(totalItems, 16)}}</span>
+        <span class="paginationNumberOfPage">page <input type="number" v-model.lazy="pageNumber" @keyup.enter="goToPage" class="inputPagination" :max="$totalItems"> sur {{ calculateTotalPages(totalItems, 16)}}</span>
         <button class="btnChangePage" @click="nextPage">Page Suivante</button>
       </div>
       
