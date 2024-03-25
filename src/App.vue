@@ -33,8 +33,6 @@ header {
   left: 0;
   width: 100vw;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
   padding: 1rem 2rem;
   background-color: var(--header-background, #cfc8c8);
   z-index: 1;
@@ -43,7 +41,6 @@ header {
 header div,
 header ul {
   display: flex;
-  align-items: center;
 }
 
 header div {
@@ -52,7 +49,6 @@ header div {
 
 ul {
   list-style-type: none;
-  padding: 0;
   margin: 0;
   margin-right: 60px;
 }
