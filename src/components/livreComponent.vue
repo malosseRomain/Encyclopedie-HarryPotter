@@ -46,7 +46,6 @@ const props = defineProps({
 
 
 #books-details {
-    border-bottom: 1px solid #ccc;
     height: 400px;
     color: black;
 
