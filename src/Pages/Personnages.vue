@@ -8,6 +8,7 @@ const totalItems = ref(293*16);
 const erreur = ref(0);
 const defaultImageURL = new URL('../DefaultImg/character.png', import.meta.url).href;
 const searchQuery = ref('');
+const errorMessage = ref("");
 
 const fetchData = async () => {
   try {
@@ -42,9 +43,10 @@ const goToPage = () => {
     fetchData();
     scrollToTop();
   } else {
-    console.log("La page demandée dépasse la limite autorisée.");
+    errorMessage.value = "\n Le numéro de page est trop élevé.";
   }
 };
+
 const setDefaultImage = (event) => {
   event.target.src = defaultImageURL;
 };
@@ -102,11 +104,13 @@ onMounted(fetchData);
           </div>
         </div>
       </div>
+      <div class="error-message" v-if="errorMessage">{{ errorMessage }}</div>
       <div class="pagination">
         <button class="btnChangePage" @click="previousPage">Page Précédente</button>
-        <span class="paginationNumberOfPage">Page <input type="number" v-model.lazy="pageNumber" @keyup.enter="goToPage" class="inputPagination"> sur {{ calculateTotalPages(totalItems, 16) }}</span>
+        <span class="paginationNumberOfPage">Page <input type="number" v-model.lazy="pageNumber" @keyup.enter="goToPage" class="inputPagination" inputmode="numeric" pattern="[0-9]*" :max="293"> sur {{ calculateTotalPages(totalItems, 16) }}</span>
         <button class="btnChangePage" @click="nextPage">Page Suivante</button>
       </div>
+      
     </div>
   </div>
 </template>
@@ -255,5 +259,8 @@ img {
   margin-top: 20px;
 }
 
-
+.error-message {
+  color: red;
+  font-size: 14px;
+}
 </style>
