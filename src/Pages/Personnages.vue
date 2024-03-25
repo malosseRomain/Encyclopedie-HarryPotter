@@ -4,7 +4,7 @@ import { getPersonnages } from '../controllers/personnagesController';
 
 const list = ref([]);
 const pageNumber = ref(1);
-const pageNumberInput = ref(1); // Nouvelle variable pour le numéro de page saisi par l'utilisateur
+const totalItems = ref(0);
 const erreur = ref(0);
 const defaultImageURL = new URL('../DefaultImg/character.png', import.meta.url).href;
 const searchQuery = ref('');
@@ -13,6 +13,7 @@ const fetchData = async () => {
   try {
     const query = searchQuery.value ? `&filter[name_cont]=${searchQuery.value}` : '';
     list.value = await getPersonnages(`?page[size]=16&page[number]=${pageNumber.value}${query}`);
+    totalItems.value = list.meta.total;
     erreur.value = 0;
 
     // Revient en haut de la page après chaque recherche ou changement de page
@@ -21,7 +22,6 @@ const fetchData = async () => {
     erreur.value = error.response.status;
   }
 };
-
 
 const nextPage = async () => {
   pageNumber.value++;
@@ -36,8 +36,8 @@ const previousPage = async () => {
 };
 
 const goToPage = () => {
-  pageNumber.value = pageNumberInput.value; // Définit la page actuelle sur la valeur saisie par l'utilisateur
-  fetchData(); // Charge les données de la nouvelle page
+  pageNumber.value = pageNumber.value; // Pour mettre à jour de PageNumber
+  fetchData(); 
 };
 
 const setDefaultImage = (event) => {
@@ -52,6 +52,10 @@ const searchCharacters = () => {
 
 const reloadPage = () => {
   window.location.reload(); 
+};
+
+const calculateTotalPages = (totalItems, itemsPerPage) => {
+  return Math.ceil(totalItems / itemsPerPage);
 };
 
 onMounted(fetchData);
@@ -89,7 +93,7 @@ onMounted(fetchData);
       </div>
       <div class="pagination">
         <button class="btnChangePage" @click="previousPage">Page Précédente</button>
-        <input type="number" v-model.lazy="pageNumberInput" @keyup.enter="goToPage" class="inputPagination">
+        <span class="paginationNumberOfPage">Page <input type="number" v-model.lazy="pageNumber" @keyup.enter="goToPage" class="inputPagination"> sur {{ calculateTotalPages(totalItems, 16) }}</span>
         <button class="btnChangePage" @click="nextPage">Page Suivante</button>
       </div>
     </div>
@@ -101,6 +105,11 @@ onMounted(fetchData);
   padding: 20px;
 }
 
+.paginationNumberOfPage {
+  color: #000000;
+  margin: 0 20px;
+}
+
 .btnChangePage {
   background-color: #4c8a3c;
   cursor: pointer;
@@ -109,7 +118,6 @@ onMounted(fetchData);
 .pageNumber {
   font-size: 20px;
   color: #000000;
-  margin: 0 20px;
 }
 
 .pagination {
@@ -118,16 +126,17 @@ onMounted(fetchData);
 }
 
 .inputPagination {
-  width: 50px; 
+  width: 20px;
   padding: 5px;
-  border: 2px solid #4c8a3c; 
-  border-radius: 5px; 
-  font-size: 16px; 
-  text-align: center; 
-  background-color: rgb(243, 243, 243); 
-  color: #000000; 
-  margin: 0 20px; 
+  border: 2px solid #4c8a3c;
+  border-radius: 5px;
+  font-size: 16px;
+  text-align: center;
+  background-color: rgb(243, 243, 243);
+  color: #000000;
+  appearance: textfield; /* Retire les flèches de contrôle */
 }
+
 
 .search-bar {
   margin-bottom: 40px;
