@@ -13,8 +13,9 @@ const errorMessage = ref("");
 const fetchData = async () => {
   try {
     const query = searchQuery.value ? `&filter[name_cont]=${searchQuery.value}` : '';
-    list.value = await getPersonnages(`?page[size]=16&page[number]=${pageNumber.value}${query}`);
-    totalItems.value = list.meta.total;
+    const response = await getPersonnages(`?page[size]=16&page[number]=${pageNumber.value}${query}`);
+    list.value = response.data; // Supposons que les éléments soient retournés ici
+    totalItems.value = response.meta.total; // Supposons que le total soit retourné ici
     erreur.value = 0;
 
     // Revient en haut de la page après chaque recherche ou changement de page
@@ -23,6 +24,7 @@ const fetchData = async () => {
     erreur.value = error.response.status;
   }
 };
+
 
 const nextPage = async () => {
   pageNumber.value++;
@@ -42,10 +44,16 @@ const goToPage = () => {
   if (pageNumber.value <= 293) {
     fetchData();
     scrollToTop();
+    errorMessage.value = ""; // Réinitialiser le message d'erreur si la condition est valide
   } else {
-    errorMessage.value = "\n Le numéro de page est trop élevé.";
+    errorMessage.value = "Le numéro de page est trop élevé.";
+
+    setTimeout(() => {
+      errorMessage.value = "";
+    }, 3000);
   }
 };
+
 
 const setDefaultImage = (event) => {
   event.target.src = defaultImageURL;
