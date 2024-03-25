@@ -4,7 +4,7 @@ import { getPersonnages } from '../controllers/personnagesController';
 
 const list = ref([]);
 const pageNumber = ref(1);
-const totalItems = ref(0);
+const totalItems = ref(293*16);
 const erreur = ref(0);
 const defaultImageURL = new URL('../DefaultImg/character.png', import.meta.url).href;
 const searchQuery = ref('');
@@ -38,11 +38,13 @@ const previousPage = async () => {
 };
 
 const goToPage = () => {
-  pageNumber.value = pageNumber.value;
-  fetchData(); 
-  scrollToTop();
+  if (pageNumber.value <= 293) {
+    fetchData();
+    scrollToTop();
+  } else {
+    console.log("La page demandée dépasse la limite autorisée.");
+  }
 };
-
 const setDefaultImage = (event) => {
   event.target.src = defaultImageURL;
 };
@@ -135,7 +137,7 @@ onMounted(fetchData);
 }
 
 .inputPagination {
-  width: 20px;
+  width: 25px;
   padding: 5px;
   border: 2px solid #4c8a3c;
   border-radius: 5px;
@@ -143,7 +145,7 @@ onMounted(fetchData);
   text-align: center;
   background-color: rgb(243, 243, 243);
   color: #000000;
-  appearance: textfield; /* Retire les flèches de contrôle */
+  appearance: textfield;
 }
 
 
