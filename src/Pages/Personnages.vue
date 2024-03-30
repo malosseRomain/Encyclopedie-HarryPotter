@@ -1,10 +1,11 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import { getPersonnages } from '../controllers/personnagesController';
+import { itemsPerPage, getPersonnages } from '../controllers/personnagesController';
 
 const list = ref([]);
 const pageNumber = ref(1);
-const totalItems = ref(293*16);
+const totalItems = ref(4675);
+const totalPages = ref(Math.ceil(totalItems.value / itemsPerPage.value));
 const erreur = ref(0);
 const defaultImageURL = new URL('../DefaultImg/character.png', import.meta.url).href;
 const searchQuery = ref('');
@@ -13,8 +14,7 @@ const errorMessage = ref("");
 const fetchData = async () => {
   try {
     const query = searchQuery.value ? `&filter[name_cont]=${searchQuery.value}` : '';
-    list.value = await getPersonnages(`?page[size]=16&page[number]=${pageNumber.value}${query}`);
-    totalItems.value = list.length;
+    list.value = await getPersonnages(`?page[size]=${itemsPerPage.value}&page[number]=${pageNumber.value}${query}`);
     erreur.value = 0;
 
     // Revient en haut de la page après chaque recherche ou changement de page
@@ -39,10 +39,10 @@ const previousPage = async () => {
 };
 
 const goToPage = () => {
-  if (pageNumber.value <= 293) {
+  if (pageNumber.value <= totalPages.value) {
     fetchData();
     scrollToTop();
-    errorMessage.value = ""; // Réinitialiser le message d'erreur si la condition est valide
+    errorMessage.value = "";
   } else {
     errorMessage.value = "Le numéro de page est trop élevé.";
 
@@ -59,16 +59,11 @@ const setDefaultImage = (event) => {
 const searchCharacters = () => {
   pageNumber.value = 1; 
   fetchData();
-  searchQuery.value = ''; 
   scrollToTop();
 };
 
 const reloadPage = () => {
   window.location.reload(); 
-};
-
-const calculateTotalPages = (totalItems, itemsPerPage) => {
-  return Math.ceil(293*16 / 16);
 };
 
 const scrollToTop = () => {
@@ -112,7 +107,7 @@ onMounted(fetchData);
       <div class="error-message" v-if="errorMessage">{{ errorMessage }}</div>
       <div class="pagination">
         <button class="btnChangePage" @click="previousPage">Page Précédente</button>
-        <span class="paginationNumberOfPage">page <input type="number" v-model.lazy="pageNumber" @keyup.enter="goToPage" class="inputPagination" :max="$totalItems"> sur {{ calculateTotalPages(totalItems, 16)}}</span>
+        <span class="paginationNumberOfPage">page <input type="number" v-model.lazy="pageNumber" @keyup.enter="goToPage" class="inputPagination"> sur {{ totalPages}}</span>
         <button class="btnChangePage" @click="nextPage">Page Suivante</button>
       </div>
       

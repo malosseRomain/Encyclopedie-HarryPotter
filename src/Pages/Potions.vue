@@ -1,12 +1,13 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import { getPotions } from '../controllers/potionsController';
+import {  itemsPerPage, getPotions } from '../controllers/potionsController';
 
 
 const list = ref([])
 const pageNumber = ref(1)
 const erreur = ref(0);
-const totalItems = ref(17*10);
+const totalItems = ref(168);
+const totalPages = ref(Math.ceil(totalItems.value / itemsPerPage.value));
 const defaultImageURL = new URL('../DefaultImg/potion.jpg', import.meta.url).href;
 const searchQuery = ref('');
 const errorMessage = ref("");
@@ -15,8 +16,7 @@ const errorMessage = ref("");
 const fetchData = async () => {
   try {
     const query = searchQuery.value ? `&filter[name_cont]=${searchQuery.value}` : '';
-    list.value = await getPotions(`?page[size]=10&page[number]=${pageNumber.value}${query}`);
-    totalItems.value = list.length;
+    list.value = await getPotions(`?page[size]=${itemsPerPage.value}&page[number]=${pageNumber.value}${query}`);
     erreur.value = 0;
 
     // Revient en haut de la page après chaque recherche ou changement de page
@@ -42,7 +42,7 @@ const previousPage = async () => {
 };
 
 const goToPage = () => {
-  if (pageNumber.value <= 17) {
+  if (pageNumber.value <= totalPages.value) {
     fetchData();
     scrollToTop();
     errorMessage.value = "";
@@ -62,16 +62,11 @@ const setDefaultImage = (event) => {
 const search = () => {
   pageNumber.value = 1; 
   fetchData();
-  searchQuery.value = ''; 
   scrollToTop();
 };
 
 const reloadPage = () => {
   window.location.reload(); 
-};
-
-const calculateTotalPages = (totalItems, itemsPerPage) => {
-  return Math.ceil(17*10 / 10);
 };
 
 const scrollToTop = () => {
@@ -113,7 +108,7 @@ onMounted(fetchData);
       <div class="error-message" v-if="errorMessage">{{ errorMessage }}</div>
       <div class="pagination">
         <button class="btnChangePage" @click="previousPage">Page Précédente</button>
-        <span class="paginationNumberOfPage">page <input type="number" v-model.lazy="pageNumber" @keyup.enter="goToPage" class="inputPagination"> sur {{ calculateTotalPages(totalItems, 16)}}</span>
+        <span class="paginationNumberOfPage">page <input type="number" v-model.lazy="pageNumber" @keyup.enter="goToPage" class="inputPagination"> sur {{totalPages}}</span>
         <button class="btnChangePage" @click="nextPage">Page Suivante</button>
       </div>
       

@@ -1,10 +1,11 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import { getSorts } from '../controllers/sortsController';
+import { itemsPerPage, getSorts } from '../controllers/sortsController';
 
 const list = ref([]);
 const pageNumber = ref(1);
-const totalItems = ref(20*16);
+const totalItems = ref(315);
+const totalPages = ref(Math.ceil(totalItems.value / itemsPerPage.value));
 const erreur = ref(0);
 const defaultImageURL = new URL('../DefaultImg/sort.jpg', import.meta.url).href;
 const searchQuery = ref('');
@@ -13,8 +14,7 @@ const errorMessage = ref("");
 const fetchData = async () => {
   try {
     const query = searchQuery.value ? `&filter[name_cont]=${searchQuery.value}` : '';
-    list.value = await getSorts(`?page[size]=16&page[number]=${pageNumber.value}${query}`);
-    totalItems.value = list.length;
+    list.value = await getSorts(`?page[size]=${itemsPerPage}&page[number]=${pageNumber.value}${query}`);
     erreur.value = 0;
 
     // Revient en haut de la page après chaque recherche ou changement de page
@@ -39,7 +39,7 @@ const previousPage = async () => {
 };
 
 const goToPage = () => {
-  if (pageNumber.value <= 20) {
+  if (pageNumber.value <= totalPages.value) {
     fetchData();
     scrollToTop();
     errorMessage.value = "";
@@ -59,16 +59,11 @@ const setDefaultImage = (event) => {
 const searchSpells = () => {
   pageNumber.value = 1; 
   fetchData();
-  searchQuery.value = ''; 
   scrollToTop();
 };
 
 const reloadPage = () => {
   window.location.reload(); 
-};
-
-const calculateTotalPages = (totalItems, itemsPerPage) => {
-  return Math.ceil(20*16 / 16);
 };
 
 const scrollToTop = () => {
@@ -78,9 +73,6 @@ const scrollToTop = () => {
 onMounted(fetchData);
 </script>
 
-
-
-
 <template>
   <div v-if="erreur !== 0">{{ erreur }}</div>
   <div v-else>
@@ -89,7 +81,7 @@ onMounted(fetchData);
     </div>
     <div v-else>
     <div class="container">
-      <h1>Personnages</h1>
+      <h1>Sorts</h1>
       <div class="search-bar">
         <input type="text" placeholder="Rechercher..." v-model="searchQuery" @keyup.enter="searchSpells">
         <button @click="searchSpells">Rechercher</button>
@@ -115,7 +107,7 @@ onMounted(fetchData);
       <div class="error-message" v-if="errorMessage">{{ errorMessage }}</div>
       <div class="pagination">
         <button class="btnChangePage" @click="previousPage">Page Précédente</button>
-        <span class="paginationNumberOfPage">page <input type="number" v-model.lazy="pageNumber" @keyup.enter="goToPage" class="inputPagination" :max="$totalItems"> sur {{ calculateTotalPages(totalItems, 16)}}</span>
+        <span class="paginationNumberOfPage">page <input type="number" v-model.lazy="pageNumber" @keyup.enter="goToPage" class="inputPagination"> sur {{totalPages}}</span>
         <button class="btnChangePage" @click="nextPage">Page Suivante</button>
       </div>
       

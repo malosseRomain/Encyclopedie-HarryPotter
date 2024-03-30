@@ -18,7 +18,7 @@ const accueil = ref({ title: 'Accueil', route: '/' })
 </script>
 
 <template>
-  <div class="background-image">
+  <div > <!-- class="background-image" -->
     <header>
       <div><router-link :to='accueil.route'>{{ accueil.title }}</router-link></div>
 
