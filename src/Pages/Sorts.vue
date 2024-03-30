@@ -76,8 +76,10 @@ onMounted(fetchData);
 <template>
   <div v-if="erreur !== 0">{{ erreur }}</div>
   <div v-else>
-    <div v-if="list.length === 0" class="no-results-message">
-      Aucun résultat trouvé. Cliquez <a href="#" @click="reloadPage">ici</a> pour recharger la page.
+    <div v-if="list.length === 0" class="no-results-message-container">
+      <div class="no-results-message">
+        Aucun résultat trouvé. Cliquez <a href="#" @click="reloadPage">ici</a> pour recharger la page.
+      </div>
     </div>
     <div v-else>
     <div class="container">
@@ -251,13 +253,19 @@ img {
   background-color: rgba(0, 123, 255, 0.8);
 }
 
-.no-results-message {
-  text-align: center;
-  font-size: 50px;
-  color: red;
-  margin-top: 20px;
+.no-results-message-container {
+  background-color: #f8d7da; /* Couleur de fond du conteneur */
+  border: 2px solid #f5c6cb; /* Bordure du conteneur */
+  border-radius: 5px; /* Coins arrondis */
+  padding: 20px; /* Espace intérieur du conteneur */
+  margin-top: 20px; /* Marge en haut du conteneur */
 }
 
+.no-results-message {
+  text-align: center;
+  font-size: 24px;
+  color: red;
+}
 .error-message {
   color: red;
   font-size: 14px;
