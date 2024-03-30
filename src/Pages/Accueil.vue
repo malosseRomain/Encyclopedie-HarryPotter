@@ -12,25 +12,25 @@ const getImage = (response) => {
   return response.data.data[0].attributes.image
 }
 
-axios.get('https://api.potterdb.com/v1/books?page[size]=1')
+axios.get('https://api.potterdb.com/v1/books')
   .then(response => {
     const imageUrl = getImageBook(response)
     boxes.value.push({ title: 'Livres', items: [imageUrl] })
   })
 
-axios.get('https://api.potterdb.com/v1/characters?page[size]=3')
-  .then(response => {
-    const imageUrl = getImage(response)
-    boxes.value.push({ title: 'Personnages', items: [imageUrl] })
-  })
-
-axios.get('https://api.potterdb.com/v1/potions?page[size]=1')
+axios.get('https://api.potterdb.com/v1/characters')
   .then(response => {
     const imageUrl = getImage(response)
     boxes.value.push({ title: 'Potions', items: [imageUrl] })
   })
 
-axios.get('https://api.potterdb.com/v1/spells?page[size]=1')
+axios.get('https://api.potterdb.com/v1/potions')
+  .then(response => {
+    const imageUrl = getImage(response)
+    boxes.value.push({ title: 'Potions', items: [imageUrl] })
+  })
+
+axios.get('https://api.potterdb.com/v1/spells')
   .then(response => {
     const imageUrl = getImage(response)
     boxes.value.push({ title: 'Sorts', items: [imageUrl] })
@@ -56,6 +56,7 @@ axios.get('https://api.potterdb.com/v1/spells?page[size]=1')
   </div>
 </template>
 
+
 <style scoped>
 h1{
     color: red;
@@ -64,17 +65,24 @@ h1{
 .grid-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 50px;
+  gap: 30px;
 }
 
 .box {
   border: 1px solid #ccc;
-  padding: 30px;
+  padding-bottom: 30px;
+  background-color: rgb(241, 237, 237);
+  width: 100%;
+  transition: transform 0.3s ease-in-out;
+}
+
+p {
+  color: #000000;
 }
 
 img {
-  max-width: 100%;
-  max-height: 200px;
+  width: 400px;
+  height: 500px;
 }
 
 </style>
