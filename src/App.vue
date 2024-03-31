@@ -2,23 +2,19 @@
 import { ref } from 'vue'
 
 const liens = ref([
+  { title: 'Livres', route: '/Livres' },
   { title: 'Potions', route: '/Potions' },
   { title: 'Sorts', route: '/Sorts' },
-  { title: 'Livres', route: '/Livres' },
   { title: 'Personnages', route: '/Personnages' }
 ])
 
 const backgroundImg = new URL('DefaultImg/castleBackground.jpg', import.meta.url).href;
 
-const setBackgroundImage = (event) => {
-  event.target.src = backgroundImg;
-};
-
 const accueil = ref({ title: 'Accueil', route: '/' })
 </script>
 
 <template>
-  <div > <!-- class="background-image" -->
+  <div>
     <header>
       <div><router-link :to='accueil.route'>{{ accueil.title }}</router-link></div>
 
@@ -35,19 +31,6 @@ const accueil = ref({ title: 'Accueil', route: '/' })
 </template>
 
 <style scoped>
-.background-image {
-  top: 0;
-  left: 0;
-  height: 100vh; /* 100% de la hauteur de la fenêtre */
-  z-index: -1;
-  background-image: url("DefaultImg/castleBackground.jpg");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-
-
 header {
   position: fixed;
   top: 0;

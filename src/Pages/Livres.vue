@@ -31,8 +31,7 @@ onMounted(fetchData)
 
 <style scoped>
 section {
-  padding: 20px;
-  text-align: center;
+  padding: 0 100px;
 }
 
 ul {
@@ -40,10 +39,11 @@ ul {
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   grid-gap: 30px;
   justify-items: center;
+  padding-right: 40px;
 }
 
 .books-item {
-  background-color: rgb(241, 237, 237);
+  background-color: rgb(241, 237, 237, 0.9);
   width: 100%;
   transition: transform 0.3s ease-in-out;
 
@@ -54,6 +54,6 @@ ul {
 
 
 h1 {
-  color: #000000;
+  color: #ff0000;
 }
 </style>

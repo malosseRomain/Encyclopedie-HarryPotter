@@ -119,16 +119,23 @@ onMounted(fetchData);
 
 <style scoped>
 .container {
-  padding: 20px;
+  padding: 0 100px;
+}
+
+h1 {
+  color: yellow;
 }
 
 .paginationNumberOfPage {
   color: #000000;
+  background-color: #ffffff;
   margin: 0 20px;
+  padding: 11px;
+  border-radius: 5px;
 }
 
 .btnChangePage {
-  background-color: #b6b921;
+  background-color: #e2d413;
   cursor: pointer;
 }
 
@@ -145,15 +152,15 @@ onMounted(fetchData);
 .inputPagination {
   width: 25px;
   padding: 5px;
-  border: 2px solid #b6b921;
+  border: 2px solid #e2d413;
   border-radius: 5px;
   font-size: 16px;
   text-align: center;
   background-color: rgb(243, 243, 243);
   color: #000000;
   appearance: textfield;
+  cursor: pointer;
 }
-
 
 .search-bar {
   margin-bottom: 40px;
@@ -165,14 +172,14 @@ onMounted(fetchData);
   border: 2px solid #525050;
   border-radius: 5px;
   font-size: 16px;
-  background-color: rgb(243, 243, 243);
+  background-color: rgb(243, 243, 243, 0.8);
   color: #000000;
   margin-right: 20px;
 }
 
 .search-bar button {
   padding: 10px 20px;
-  background-color: #b6b921;
+  background-color: #e2d413;
   color: white;
   border: none;
   border-radius: 5px;
@@ -184,10 +191,6 @@ span {
   font-weight: bold;
 }
 
-h1 {
-  color: #000000;
-}
-
 .spells-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
@@ -196,13 +199,13 @@ h1 {
 }
 
 .spells-item {
-  background-color: rgb(241, 237, 237);
+  background-color: rgb(241, 237, 237, 0.9);
   width: 100%;
   height: 1200px;
-  border: 10px double #b6b921;
+  border: 10px double #e2d413;
   border-radius: 25px;
   transition: transform 0.3s ease-in-out;
-  position: relative; /* Ajout de la position relative */
+  position: relative;
 }
 
 .item-details {
@@ -254,11 +257,11 @@ img {
 }
 
 .no-results-message-container {
-  background-color: #f8d7da; /* Couleur de fond du conteneur */
-  border: 2px solid #f5c6cb; /* Bordure du conteneur */
-  border-radius: 5px; /* Coins arrondis */
-  padding: 20px; /* Espace intérieur du conteneur */
-  margin-top: 20px; /* Marge en haut du conteneur */
+  background-color: #f8d7da;
+  border: 2px solid #f5c6cb;
+  border-radius: 5px;
+  padding: 20px;
+  margin-top: 20px;
 }
 
 .no-results-message {

@@ -39,7 +39,7 @@ const props = defineProps({
 .books-item {
     background-color: rgb(241, 237, 237);
     width: 100%;
-    border: 10px double #834545;
+    border: 10px double #bb2b2b;
     border-radius: 25px;
     transition: transform 0.3s ease-in-out;
 }
