@@ -4,7 +4,7 @@ import { itemsPerPage, getSorts } from '../controllers/sortsController';
 
 const list = ref([]);
 const pageNumber = ref(1);
-const totalItems = ref(315);
+const totalItems = ref(315); //valeur fixe récupéré sur le site web de l'API
 const totalPages = ref(Math.ceil(totalItems.value / itemsPerPage.value));
 const erreur = ref(0);
 const defaultImageURL = new URL('../DefaultImg/sort.jpg', import.meta.url).href;

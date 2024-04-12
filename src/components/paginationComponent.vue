@@ -1,6 +1,4 @@
 <script setup>
-import { defineProps, defineModel } from 'vue';
-
 const props = defineProps({
     parentName: {
         type: String,

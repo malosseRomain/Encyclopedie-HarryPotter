@@ -4,7 +4,7 @@ import { itemsPerPage, getPersonnages } from '../controllers/personnagesControll
 
 const list = ref([]);
 const pageNumber = ref(1);
-const totalItems = ref(4675);
+const totalItems = ref(4675); //valeur fixe récupéré sur le site web de l'API
 const totalPages = ref(Math.ceil(totalItems.value / itemsPerPage.value));
 const erreur = ref(0);
 const defaultImageURL = new URL('../DefaultImg/character.png', import.meta.url).href;
