@@ -10,7 +10,7 @@ const props = defineProps({
 <template>
     <div class="books-item">
         <img v-if="item.attributes.cover" :src="item.attributes.cover" alt="Image du livre" />
-        <div id="books-details">
+        <div class="books-details">
             <p>
                 <strong>Nom :</strong> {{ item.attributes.title || "N/A" }}
             </p>
@@ -24,12 +24,12 @@ const props = defineProps({
             <p>
                 <strong>Créateur :</strong> {{ item.attributes.author || "N/A" }}
             </p>
-            <p id="resume">
+            <p class="resume">
                 <strong>Résumé :</strong> {{ item.attributes.summary || "N/A" }}
             </p>
         </div>
         <a :href="item.attributes.wiki">
-            <p id="Wiki">En savoir plus avec le wiki</p>
+            <p class="Wiki">En savoir plus avec le wiki</p>
         </a>
     </div>
 </template>
@@ -45,7 +45,7 @@ const props = defineProps({
 }
 
 
-#books-details {
+.books-details {
     height: 400px;
     color: black;
 
@@ -63,7 +63,7 @@ img {
     border-radius: 15px;
 }
 
-#resume {
+.resume {
     padding-bottom: 20px;
     padding-right: 20px;
     padding-left: 20px;
@@ -77,7 +77,7 @@ a {
     text-decoration: none;
     color: white;
 
-    #Wiki {
+    .Wiki {
         background-color: rgba(0, 123, 255, 1);
         padding: 15px;
         margin: 0;
