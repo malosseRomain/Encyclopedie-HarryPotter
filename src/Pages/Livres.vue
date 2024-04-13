@@ -1,19 +1,7 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { onMounted } from 'vue'
 import livreComponent from '../components/livreComponent.vue';
-import { getLivres } from '../controllers/livresController';
-
-const list = ref([])
-const errorData = ref(0);
-
-const fetchData = async () => {
-  try {
-    list.value = await getLivres();
-    errorData.value = 0;
-  } catch (error) {
-    errorData.value = error.response.status;
-  }
-}
+import { list, errorData, fetchData } from '../controllers/livresController';
 
 onMounted(fetchData)
 </script>

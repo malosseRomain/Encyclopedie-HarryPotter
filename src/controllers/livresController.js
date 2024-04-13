@@ -1,10 +1,15 @@
-import axios from "axios"
+import { ref } from 'vue'
+import { getLivres } from "../model/communicationAPI";
 
-export const getLivres = async () => {
+
+export const list = ref([])
+export const errorData = ref(0);
+
+export const fetchData = async () => {
     try {
-        let result = await axios.get(`https://api.potterdb.com/v1/books`);
-        return result.data.data;
+        list.value = await getLivres();
+        errorData.value = 0;
     } catch (error) {
-        throw new Error("Une erreur est survenue : " + error);
+        errorData.value = error.response.status;
     }
 }
