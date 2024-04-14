@@ -11,22 +11,11 @@ const props = defineProps({
     <div class="books-item">
         <img v-if="item.attributes.cover" :src="item.attributes.cover" alt="Image du livre" />
         <div class="books-details">
-            <p>
-                <strong>Nom :</strong> {{ item.attributes.title || "N/A" }}
-            </p>
-            <p>
-                <strong>Nombre de page :</strong> {{ item.attributes.pages || "N/A" }}
-            </p>
-            <p>
-                <strong>Date de sortie :</strong> {{ new Date(item.attributes.release_date).toLocaleDateString('fr-FR')
-            || "N/A" }}
-            </p>
-            <p>
-                <strong>Créateur :</strong> {{ item.attributes.author || "N/A" }}
-            </p>
-            <p class="resume">
-                <strong>Résumé :</strong> {{ item.attributes.summary || "N/A" }}
-            </p>
+            <p><strong>Nom :</strong> {{ item.attributes.title || "N/A" }}</p>
+            <p><strong>Nombre de page :</strong> {{ item.attributes.pages || "N/A" }}</p>
+            <p><strong>Date de sortie :</strong> {{ new Date(item.attributes.release_date).toLocaleDateString('fr-FR') || "N/A" }}</p>
+            <p><strong>Créateur :</strong> {{ item.attributes.author || "N/A" }}</p>
+            <p class="resume"><strong>Résumé :</strong> {{ item.attributes.summary || "N/A" }}</p>
         </div>
         <a :href="item.attributes.wiki">
             <p class="Wiki">En savoir plus avec le wiki</p>
@@ -42,6 +31,16 @@ const props = defineProps({
     border: 10px double #bb2b2b;
     border-radius: 25px;
     transition: transform 0.3s ease-in-out;
+
+    &:hover {
+        transform: scale(1.02);
+    }
+
+    img {
+        width: 100%;
+        height: auto;
+        border-radius: 15px;
+    }
 }
 
 
@@ -57,11 +56,6 @@ const props = defineProps({
     }
 }
 
-img {
-    width: 100%;
-    height: auto;
-    border-radius: 15px;
-}
 
 .resume {
     padding-bottom: 20px;
@@ -82,6 +76,10 @@ a {
         padding: 15px;
         margin: 0;
         border-radius: 0 0 15px 15px;
+    }
+
+    .Wiki:hover {
+        background-color: rgba(0, 123, 255, 0.8);
     }
 }
 </style>

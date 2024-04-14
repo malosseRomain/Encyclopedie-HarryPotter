@@ -17,15 +17,15 @@ const props = defineProps({
     <img v-else :src="defaultImageURL" alt="Image par défaut de potion" />
     
     <div class="potions-details">
-      <p class="item-details padding"><span>Nom : </span>{{ itemProps.attributes.name || "N/A"}}</p>
-      <p class="item-details padding"><span>Difficulté : </span>{{ itemProps.attributes.difficulty || "N/A"}}</p>
-      <p class="item-details padding"><span>Ingrédients : </span> {{ itemProps.attributes.ingredients || "N/A"}}</p>
-      <p class="padding"><span>Effet :</span> {{ itemProps.attributes.effect || "N/A"}}</p>
+      <p><strong>Nom : </strong>{{ itemProps.attributes.name || "N/A"}}</p>
+      <p><strong>Difficulté : </strong>{{ itemProps.attributes.difficulty || "N/A"}}</p>
+      <p><strong>Ingrédients : </strong> {{ itemProps.attributes.ingredients || "N/A"}}</p>
+      <p><strong>Effet :</strong> {{ itemProps.attributes.effect || "N/A"}}</p>
       <a :href="itemProps.attributes.wiki">
         <p class="Wiki">En savoir plus avec le wiki</p>
       </a>
     </div>
-    </div>
+  </div>
 </template>
 
 <style scoped>
@@ -55,7 +55,7 @@ const props = defineProps({
   height: 30%;
   color: black;
 
-  .item-details {
+  & > p {
     border-bottom: 3px solid #000000;
     margin-top: 20px;
     overflow: auto;
