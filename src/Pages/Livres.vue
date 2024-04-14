@@ -11,7 +11,7 @@ onMounted(fetchData)
   <section v-else>
     <h1> Livres </h1>
     <ul>
-      <livreComponent v-for="item in list" :key="item.id" :item="item" :msg="item" />
+      <livreComponent v-for="item in list" :key="item.id" :itemProps="item" :msg="item" />
     </ul>
   </section>
 </template>

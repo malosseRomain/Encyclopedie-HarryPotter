@@ -12,7 +12,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="potions-item">
+  <li class="potions-item">
     <img v-if="itemProps.attributes.image" :src="itemProps.attributes.image" :alt="'Image de la potion : ' + itemProps.attributes.name"/>
     <img v-else :src="defaultImageURL" alt="Image par défaut de potion" />
     
@@ -25,7 +25,7 @@ const props = defineProps({
         <p class="Wiki">En savoir plus avec le wiki</p>
       </a>
     </div>
-  </div>
+  </li>
 </template>
 
 <style scoped>

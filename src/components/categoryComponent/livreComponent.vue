@@ -1,26 +1,31 @@
 <script setup>
 const props = defineProps({
-    item: {
+    itemProps: {
         type: Object,
         required: true
     }
 });
+
+
+const convertDate = (date) => {
+    return new Date(date).toLocaleDateString('fr-FR');
+} 
 </script>
 
 <template>
-    <div class="books-item">
-        <img v-if="item.attributes.cover" :src="item.attributes.cover" :alt="'Image du livre : ' + itemProps.attributes.name" />
+    <li class="books-item">
+        <img v-if="itemProps.attributes.cover" :src="itemProps.attributes.cover" :alt="'Image du livre : ' + itemProps.attributes.name" />
         <div class="books-details">
-            <p><strong>Nom :</strong> {{ item.attributes.title || "N/A" }}</p>
-            <p><strong>Nombre de page :</strong> {{ item.attributes.pages || "N/A" }}</p>
-            <p><strong>Date de sortie :</strong> {{ new Date(item.attributes.release_date).toLocaleDateString('fr-FR') || "N/A" }}</p>
-            <p><strong>Créateur :</strong> {{ item.attributes.author || "N/A" }}</p>
-            <p class="resume"><strong>Résumé :</strong> {{ item.attributes.summary || "N/A" }}</p>
+            <p><strong>Nom :</strong> {{ itemProps.attributes.title || "N/A" }}</p>
+            <p><strong>Nombre de page :</strong> {{ itemProps.attributes.pages || "N/A" }}</p>
+            <p><strong>Date de sortie :</strong> {{ convertDate(itemProps.attributes.release_date) || "N/A" }}</p>
+            <p><strong>Créateur :</strong> {{ itemProps.attributes.author || "N/A" }}</p>
+            <p class="resume"><strong>Résumé :</strong> {{ itemProps.attributes.summary || "N/A" }}</p>
         </div>
-        <a :href="item.attributes.wiki">
+        <a :href="itemProps.attributes.wiki">
             <p class="Wiki">En savoir plus avec le wiki</p>
         </a>
-    </div>
+    </li>
 </template>
 
 
