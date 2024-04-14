@@ -57,7 +57,7 @@ const props = defineProps({
   color: black;
 
   & > p {
-    border-bottom: 3px solid #000000;
+    border-top: 3px solid #000000;
     margin-top: 20px;
     overflow: auto;
     padding: 10px 30px;

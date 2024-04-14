@@ -55,7 +55,7 @@ const convertDate = (date) => {
     color: black;
 
     p {
-        border-bottom: 3px solid #000000;
+        border-top: 3px solid #000000;
         padding-bottom: 20px;
         padding-right: 20px;
         padding-left: 20px;
