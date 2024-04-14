@@ -30,3 +30,11 @@ export const getPersonnages = async (query) => {
     }
 }
 
+export const getSorts = async (query) => {
+    try {
+        let result = await axios.get(address + `/spells` + query);
+        return result.data.data;
+    } catch (error) {
+        throw error;
+    }
+}
