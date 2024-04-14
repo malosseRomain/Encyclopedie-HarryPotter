@@ -31,6 +31,7 @@ const convertDate = (date) => {
 
 <style scoped>
 .books-item {
+    display: block;
     background-color: rgb(241, 237, 237);
     width: 100%;
     border: 10px double #bb2b2b;
