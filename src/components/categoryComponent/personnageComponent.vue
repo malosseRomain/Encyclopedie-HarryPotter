@@ -14,7 +14,7 @@ const props = defineProps({
 <template>
   <li class="characters-item">
     <img v-if="itemProps.attributes.image" :src="itemProps.attributes.image" :alt="'Image du personnage : ' + itemProps.attributes.name"/>
-    <img v-else :src="defaultImageURL" alt="Image par défaut de potion" />
+    <img v-else :src="defaultImageURL" alt="Image par défaut de personnage" />
     
     <div class="characters-details">
       <p><strong>Nom : </strong>{{ itemProps.attributes.name || "N/A"}}</p>
