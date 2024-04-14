@@ -41,7 +41,7 @@ onMounted(fetchData);
 
   <section v-else>
     <h1>Potions</h1>
-    <searchComponent v-model:searchQuery="searchQuery" :search="search"/>
+    <searchComponent v-model:searchQuery="searchQuery" :search="search" :parentName="parentName"/>
 
     <ul>
       <potionComponent v-for="item in list" :key="item.id" :itemProps="item" :msg="item" :defaultImageURL="defaultImageURL" />

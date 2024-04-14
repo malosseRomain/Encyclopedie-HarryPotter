@@ -1,8 +1,12 @@
 <script setup>
 const props = defineProps({
     search: {
-        type: Function,
-        required: true
+      type: Function,
+      required: true
+    },
+    parentName: {
+      type: String,
+      required: true
     }
 });
 
@@ -12,7 +16,7 @@ const searchQuery = defineModel('searchQuery');
 <template>
       <div class="search-bar">
         <input type="text" placeholder="Rechercher..." v-model="searchQuery" @keyup.enter="search">
-        <button @click="search">Rechercher</button>
+        <button :class="parentName" @click="search">Rechercher</button>
       </div>
 </template>
 
@@ -33,12 +37,23 @@ const searchQuery = defineModel('searchQuery');
 
   button {
     padding: 10px 20px;
-    background-color: #361ab6;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
+
+    &.sorts {
+      background-color: #e2d413;
+    }
+
+    &.potions {
+      background-color: #1a58b6;
+    }
+
+    &.personnages {
+      background-color: #4c8a3c;
+    }
   }
 }
 </style>
