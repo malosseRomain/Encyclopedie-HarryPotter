@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted } from 'vue'
-import livreComponent from '../components/livreComponent.vue';
+import livreComponent from '../components/categoryComponent/livreComponent.vue';
 import { list, errorData, fetchData } from '../controllers/livresController';
 
 onMounted(fetchData)

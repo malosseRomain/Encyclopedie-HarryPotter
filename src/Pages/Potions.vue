@@ -20,10 +20,10 @@ import {
   goToPage
 } from '../controllers/potionsController'; //function
 
-import paginationComponent from '../components/paginationComponent.vue';
-import errorComponent from '../components/errorComponent.vue';
-import searchComponent from '../components/searchComponent.vue';
-import potionComponent from '../components/potionComponent.vue';
+import paginationComponent from '../components/toolsComponent/paginationComponent.vue';
+import errorComponent from '../components/toolsComponent/errorComponent.vue';
+import searchComponent from '../components/toolsComponent/searchComponent.vue';
+import potionComponent from '../components/categoryComponent/potionComponent.vue';
 
 import { reloadPage } from '../utils/actionWindow';
 

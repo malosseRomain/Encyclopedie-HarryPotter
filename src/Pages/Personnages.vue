@@ -1,74 +1,36 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-import { itemsPerPage, getPersonnages } from '../controllers/personnagesController';
+import { onMounted } from 'vue';
 
-const list = ref([]);
-const pageNumber = ref(1);
-const totalItems = ref(4675); //valeur fixe récupéré sur le site web de l'API
-const totalPages = ref(Math.ceil(totalItems.value / itemsPerPage.value));
-const erreur = ref(0);
-const defaultImageURL = new URL('../DefaultImg/character.png', import.meta.url).href;
-const searchQuery = ref('');
-const errorMessage = ref("");
+import {
+  list,
+  totalPages,
+  pageNumber,
+  searchQuery,
+  msgError,
+  errorPagination,
+  msgErrorData,
+  msgErrorSearch
+} from '../controllers/personnagesController'; //variable
 
-const fetchData = async () => {
-  try {
-    const query = searchQuery.value ? `&filter[name_cont]=${searchQuery.value}` : '';
-    list.value = await getPersonnages(`?page[size]=${itemsPerPage.value}&page[number]=${pageNumber.value}${query}`);
-    erreur.value = 0;
+import {
+  fetchData,
+  search,
+  nextPage,
+  previousPage,
+  goToPage
+} from '../controllers/personnagesController'; //function
 
-    // Revient en haut de la page après chaque recherche ou changement de page
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  } catch (error) {
-    erreur.value = error.response.status;
-  }
-};
+import paginationComponent from '../components/toolsComponent/paginationComponent.vue';
+import errorComponent from '../components/toolsComponent/errorComponent.vue';
+import searchComponent from '../components/toolsComponent/searchComponent.vue';
+import potionComponent from '../components/categoryComponent/potionComponent.vue';
 
-const nextPage = async () => {
-  pageNumber.value++;
-  fetchData();
-  scrollToTop();
-};
+import { reloadPage } from '../utils/actionWindow';
 
-const previousPage = async () => {
-  if (pageNumber.value > 1) {
-    pageNumber.value--;
-    fetchData();
-    scrollToTop();
-  }
-};
 
-const goToPage = () => {
-  if (pageNumber.value <= totalPages.value) {
-    fetchData();
-    scrollToTop();
-    errorMessage.value = "";
-  } else {
-    errorMessage.value = "Le numéro de page est trop élevé.";
+const defaultImageURL = new URL('../DefaultImg/potion.jpg', import.meta.url).href;
+const parentName = 'potions';
 
-    setTimeout(() => {
-      errorMessage.value = "";
-    }, 3000);
-  }
-};
-
-const setDefaultImage = (event) => {
-  event.target.src = defaultImageURL;
-};
-
-const searchCharacters = () => {
-  pageNumber.value = 1; 
-  fetchData();
-  scrollToTop();
-};
-
-const reloadPage = () => {
-  window.location.reload(); 
-};
-
-const scrollToTop = () => {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-};
 
 onMounted(fetchData);
 </script>
