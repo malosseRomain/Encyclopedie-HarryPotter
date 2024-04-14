@@ -9,7 +9,7 @@ const props = defineProps({
 
 <template>
     <div class="books-item">
-        <img v-if="item.attributes.cover" :src="item.attributes.cover" alt="Image du livre" />
+        <img v-if="item.attributes.cover" :src="item.attributes.cover" :alt="'Image du livre : ' + itemProps.attributes.name" />
         <div class="books-details">
             <p><strong>Nom :</strong> {{ item.attributes.title || "N/A" }}</p>
             <p><strong>Nombre de page :</strong> {{ item.attributes.pages || "N/A" }}</p>
